@@ -13,8 +13,6 @@ public class GameManager : MonoBehaviourPun
     public Transform[] spawnPoints;
     public float respawnTime;
 
-    public int alivePlayers;
-
     private int playersInGame;
 
     public static GameManager instance;
@@ -29,7 +27,6 @@ public class GameManager : MonoBehaviourPun
     private void Start()
     {
         players = new PlayerController[PhotonNetwork.PlayerList.Length];
-        //alivePlayers = players.Length;
 
         photonView.RPC("ImInGame", RpcTarget.AllBuffered);
     }
@@ -38,7 +35,7 @@ public class GameManager : MonoBehaviourPun
     {
         playersInGame++;
 
-        if (PhotonNetwork.IsMasterClient && playersInGame == PhotonNetwork.PlayerList.Length)
+        if (playersInGame == PhotonNetwork.PlayerList.Length)
             SpawnPlayer();
   
     }
@@ -48,6 +45,6 @@ public class GameManager : MonoBehaviourPun
     {
         GameObject playerObj = PhotonNetwork.Instantiate(playerPrefabPath, spawnPoints[Random.Range(0, spawnPoints.Length)].position, Quaternion.identity);
 
-        playerObj.GetComponent<PlayerController>().photonView.RPC("Initialize", RpcTarget.All, PhotonNetwork.LocalPlayer);
+        playerObj.GetComponent<PhotonView>().RPC("Initialize", RpcTarget.All, PhotonNetwork.LocalPlayer);
     }
 }

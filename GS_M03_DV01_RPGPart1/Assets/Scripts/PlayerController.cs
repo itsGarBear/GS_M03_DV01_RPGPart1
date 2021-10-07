@@ -118,12 +118,12 @@ public class PlayerController : MonoBehaviourPun
 
         StartCoroutine(Spawn(spawnPos, GameManager.instance.respawnTime));
 
-        IEnumerator Spawn(Vector3 spawnPos, float timeToSpawn)
+        IEnumerator Spawn(Vector3 spawnPosition, float timeToSpawn)
         {
             yield return new WaitForSeconds(timeToSpawn);
 
             dead = false;
-            transform.position = spawnPos;
+            transform.position = spawnPosition;
             currHP = maxHP;
             rb.isKinematic = false;
 
